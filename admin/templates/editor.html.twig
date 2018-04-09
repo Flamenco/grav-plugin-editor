@@ -1,0 +1,231 @@
+{% extends 'default-admin.html.twig' %}
+
+{% set scope = scope ? scope : 'editor' %}
+{% set service = service ? service : 'renderer' %}
+{% set context = context ? context : "no_context" %}
+
+{% do assets.addJs('plugin://admin-power-tools/assets/ajax_util.js') %}
+{% do assets.addJs('plugin://admin-power-tools/assets/fullscreen_util.js') %}
+
+{% do assets.addCss('plugin://editor/assets/editor.css') %}
+
+{#CodeMirror#}
+{% do assets.addCss('plugin://editor/lib/codemirror/codemirror.css') %}
+{% do assets.addJs('plugin://editor/lib/codemirror/codemirror.js') %}
+
+{#CodeMirror modes#}
+{% for service in service_list('language') %}
+    {% for dep in service.dependencies %}
+        {% do assets.add(dep) %}
+    {% endfor %}
+{% endfor %}
+
+{% do assets.addJs('plugin://editor/assets/editor.js', -1000) %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #admin-main .admin-block {
+            padding: 1em;
+        }
+
+        .editor {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: .75em;
+        }
+
+        .CodeMirror {
+            flex: 1;
+        }
+
+        *:fullscreen .CodeMirror,
+        *:-webkit-full-screen .CodeMirror,
+        *:-moz-full-screen .CodeMirror,
+        *:-ms-fullscreen .CodeMirror {
+            padding: .5em;
+        }
+
+        *:-webkit-full-screen .CodeMirror {
+            padding: .5em;
+        }
+
+        #fullscreen:fullscreen css-ta,
+        #fullscreen:-webkit-full-screen css-ta,
+        #fullscreen:-moz-full-screen css-ta {
+            height: 100%;
+            width: 100%;
+        }
+
+    </style>
+{% endblock %}
+
+{% set pageToEdit = uri.query('target') %}
+{% set language = uri.query('language') %}
+
+{% block footer %}
+    {{ parent() }}
+
+    {# make sure text area has rendered first #}
+    <script>
+        let language = '{{ language }}';
+        switch (language) {
+            case 'twig':
+                language = "htmltwig";
+                break;
+            case 'js':
+                language = "javascript";
+                break;
+            case 'md':
+                language = "gfm";
+                break;
+        }
+
+        // codemirror
+        CodeMirror.defineMode("htmltwig", function (config, parserConfig) {
+            return CodeMirror.overlayMode(CodeMirror.getMode(config, parserConfig.backdrop || "text/html"), CodeMirror.getMode(config, "twig"));
+        });
+        
+        const ele = document.getElementById('css-ta');
+        const editor = CodeMirror.fromTextArea(ele, {
+            lineNumbers: false,
+            mode: language
+        });
+        ele._editor = editor;
+    </script>
+
+    <script>
+        function responseHandler(successMessage) {
+            return (e) => {
+                console.log(e);
+                switch (e.status) {
+                    case 200:
+                        _toast(successMessage || "Success!");
+                        const res = JSON.parse(e.responseText);
+                        if (res.error) {
+                            alert(res.error);
+                            return;
+                        }
+                        if (res.newTarget === null) {
+                            // file was deleted. go to file list for language
+                            let cur = window.location.href;
+                            let index = cur.indexOf("/edit?");
+                            cur = cur.substring(0, index) + '/' + '{{ language }}';
+                            window.location.href = cur;
+                        }
+                        else if (res.newTarget) {
+                            let cur = window.location.href;
+                            cur = cur.replace(/(?<=target=)[^&]+/, encodeURIComponent(res.newTarget));
+                            window.location.href = cur;
+                        }
+                        return;
+
+                    default:
+                        alert(e.statusMessage || e.statusText);
+                        return;
+                }
+            };
+        }
+
+        function _doDelete() {
+            _post('action', {
+                target: '{{ pageToEdit }}',
+                op: 'delete'
+            }, new responseHandler(`The file {{ pageToEdit }} was deleted.`));
+        }
+
+        function _doRename() {
+            _doInput({
+                title: 'Rename File',
+                subtitle: "Rename file <strong>{{ pageToEdit }}</strong>.",
+                value: "{{ pageToEdit | basename }}",
+                callback: function (value) {
+                    _post('action', {
+                        target: '{{ pageToEdit }}',
+                        op: 'rename',
+                        value: value
+                    }, new responseHandler(`The file {{ pageToEdit }} was renamed to '${value}'.`));
+                }
+            });
+        }
+
+        function _doMove() {
+            _doInput({
+                title: 'Move File',
+                subtitle: "Move file <strong>{{ pageToEdit }}</strong>.",
+                value: "{{ pageToEdit }}",
+                callback: function (value) {
+                    _post('action', {
+                        target: '{{ pageToEdit }}',
+                        op: 'move',
+                        value: value
+                    }, new responseHandler(`The file {{ pageToEdit }} was moved to '${value}'.`));
+                }
+            });
+        }
+
+        function _doCopy() {
+            _doInput({
+                title: 'Copy File',
+                subtitle: "Copy file <strong>{{ pageToEdit }}</strong>.",
+                value: "{{ pageToEdit }}",
+                callback: function (value) {
+                    _post('action', {
+                        target: '{{ pageToEdit }}',
+                        op: 'copy',
+                        value: value
+                    }, new responseHandler(`The file {{ pageToEdit }} was copied to '${value}'.`));
+                }
+            });
+        }
+
+        function _doCreate() {
+            _doInput({
+                title: 'Create File',
+                subtitle: "Create file in directory <strong>{{ pageToEdit|dirname }}</strong>.",
+                value: "{{ pageToEdit|dirname }}/new_file.{{ pathinfo(pageToEdit)['extension'] }}",
+                callback: function (value) {
+                    _post('action', {
+                        target: value,
+                        op: 'create',
+                        value: value
+                    }, new responseHandler(`The file {{ pageToEdit }} was copied to '${value}'.`));
+                }
+            });
+        }
+
+        function _doSave() {
+            const ele = document.getElementById('css-ta');
+            let value = ele._editor.getValue();
+
+            _post('action', {
+                target: '{{ pageToEdit }}',
+                op: 'save',
+                value: value
+            }, new responseHandler('The file {{ pageToEdit }} was saved.'));
+        }
+    </script>
+
+    {% include 'modal/confirm.html.twig' with {message:"Delete the file located at <strong>#{pageToEdit}</strong>?"} %}
+    {% include 'modal/input.html.twig' %}
+
+{% endblock %}
+
+{% block content %}
+    {{ parent() }}
+    <div class='editor'>
+        <div class='editor-edit-header'>Editing <strong>{{ pageToEdit }}</strong></div>
+        {% include 'fullscreen-menu.html.twig' with {'targetSelector':'.editor', 'scope':'editor'} %}
+        <textarea id='css-ta' style='height:12em; flex:1'>{{ get_file_contents(pageToEdit) }}</textarea>
+    </div>
+{% endblock %}
+
+
+{% block body %}
+    <div class="editor-wrapper">
+        {{ parent() }}
+    </div>
+{% endblock %}

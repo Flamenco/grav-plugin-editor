@@ -1,0 +1,43 @@
+{% extends 'default-admin.html.twig' %}
+
+{% set scope = scope ? scope : 'editor-list' %}
+{% set service = service ? service : 'renderer' %}
+{% set context = context ? context : "no_context" %}
+
+{% do assets.addCss('plugin://editor/assets/editor.css') %}
+{% do assets.addJs('plugin://admin-power-tools/assets/fast-filter.js') %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .admin-block {
+            overflow: auto;
+        }
+    </style>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        // Prevent page from caching back() and forward()
+        //TODO Is this FireFox only?
+        // window.onunload = function () {
+        // };
+    </script>
+{% endblock %}
+
+
+{% block content %}
+    <div class="editor">
+        {{ parent() }}
+    </div>
+{% endblock %}
+
+
+{% block body %}
+    <div class="editor-wrapper">
+        {{ parent() }}
+    </div>
+{% endblock %}

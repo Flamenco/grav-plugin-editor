@@ -1,0 +1,66 @@
+{#
+This twig contains the confirmation form along with the _doConfirm function
+subtitle: The subtitle.
+title: The title.
+message:  The HTML message to display in the main content area.
+#}
+
+{% set title = title ?: "Confirm Your Intention" %}
+{% set subtitle = subtitle ?: "Are you sure?" %}
+{% set message = message ?: null %}
+
+<div onsubmit="return false" class="remodal" data-remodal-id="confirm" data-remodal-options="hashTracking: false">
+    <form>
+        {% if title %}
+            <h1>{{ title }}</h1>
+        {% endif %}
+        {% if subtitle %}
+            <p class="bigger">
+                {% if context %}
+                    <strong>{{ subtitle }}</strong>
+                {% endif %}
+            </p>
+        {% endif %}
+        {% if message %}
+            <p class="bigger">
+                {{ message | raw }}
+            </p>
+        {% endif %}
+        <br>
+        <div class="button-bar">
+            <button name="cancel" class="button secondary"><i
+                        class="fa fa-fw fa-close"></i> {{ "PLUGIN_ADMIN.CANCEL"|tu }}</button>
+            <button name="continue" class="button"><i
+                        class="fa fa-fw fa-check"></i> {{ "PLUGIN_ADMIN.CONTINUE"|tu }}</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function _doConfirm(callbackOrMessage) {
+        const args = Array.prototype.slice.call(arguments, 1);
+        const modal = $.remodal.lookup[$('[data-remodal-id=confirm]').data('remodal')];
+        modal.open();
+
+        // Remove default button handlers
+        $(document).off('click', '[data-remodal-id=confirm] .button');
+        // Install new button handlers
+        $(document).on('click', '[data-remodal-id=confirm] .button', function (e) {
+            modal.close();
+            switch (e.target.name) {
+                case 'continue':
+                    switch (typeof callbackOrMessage) {
+                        case 'function':
+                            callbackOrMessage.apply(null, args);
+                            break;
+                        case 'string':
+                            alert(callbackOrMessage);
+                            break;
+                    }
+                    break;
+                case 'cancel':
+                    break;
+            }
+        });
+    }
+</script>

@@ -1,0 +1,6 @@
+enabled: true
+js_enabled: true
+php_enabled: true
+twig_enabled: true
+css_enabled: true
+markdown_enabled: true

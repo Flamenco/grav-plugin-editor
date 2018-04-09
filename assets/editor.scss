@@ -1,0 +1,68 @@
+/* editor plugin */
+
+.editor {
+
+  button {
+    border: 2px solid darkgray;
+    border-radius: 5px;
+    margin: 6px 0;
+
+    :hover {
+      background: lightgrey;
+    }
+  }
+
+  .edit-header {
+    word-wrap: break-word;
+  }
+
+  .editor-folder {
+    //font-weight: bold;
+    color: #323640;
+  }
+
+  .editor-file {
+    margin-left: 2em;
+    font-size: .9em;
+  }
+
+  /* CodeMirror */
+
+  .CodeMirror {
+    border: 1px solid silver;
+    border-radius: 5px;
+  }
+
+  .editor-items {
+    padding: 0 .5em;
+  }
+
+}
+
+.editor-wrapper {
+
+  #admin-main .titlebar .button.active {
+    background: #abbf41;
+  }
+
+  .content-padding, .default-box-shadow, .admin-block {
+    height: 100% !important;
+  }
+
+  .content-wrapper > div {
+    height: 100% !important;
+  }
+
+  #footer {
+    display: none;
+  }
+
+  #messages {
+    display: none;
+  }
+
+  /* git hub message */
+  .notice-alert {
+    display: none;
+  }
+}
