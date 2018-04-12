@@ -57,60 +57,49 @@ if (!class_exists('\\TwelveTone\\Common\\DependencyUtil')) {
 
             if ($deps) {
                 foreach ($deps as $dep) {
-                    $name = $dep['name'];
-                    if ($name === 'grav') {
-                        //TODO check Grav version
-                        continue;
-                    }
-                    $version = $dep['version'];
-                    if (!preg_match("#^([<>=~^]+)?((\d*)(\\.\d*)?(\\.\d*)?)#", $version, $m)) {
-                        continue;
-                    }
-                    //$version = $m[2];
-                    $major = $m[3];
-                    if (isset($m[4])) {
-                        $minor = $m[4];
-                    } else {
-                        $minor = 0;
-                    }
-                    if (isset($m[5])) {
-                        $patch = $m[5];
-                    } else {
-                        $patch = 0;
-                    }
-                    $version = "$major.$minor.$patch";
-
-                    if (isset($m[1])) {
-                        $compare = $m[1];
-                    } else {
-                        $compare = '=';
-                    }
-                    if (!$compare) {
-                        $compare = '=';
-                    } else if ($compare === '~') {
-                        //TODO implement '~' patch
-                        $compare = '>=';
-                    } else if ($compare === '^') {
-                        //TODO implement '^' minor
-                        $compare = '>=';
-                    }
-
-
-                    $found = $plugins->get($name);
-                    if (!$found) {
-                        $msg = "Missing dependency: '$name'";
-                        if (is_array($issues)) {
-                            $issues[] = $msg;
-                        } else {
-                            $messages->add($msg, 'error');
+                    try {
+                        $name = $dep['name'];
+                        if ($name === 'grav') {
+                            //TODO check Grav version
+                            continue;
                         }
-                        $errors++;
-                        continue;
-                    }
-                    if (!$grav['config']->get("plugins.$name.enabled")) {
-                        //BUG admin should always be enabled if installed
-                        if ($name !== 'admin') {
-                            $msg = "Dependency not enabled: '$name'";
+                        $version = $dep['version'];
+                        if (!preg_match("#^([<>=~^]+)?((\d*)(\\.\d*)?(\\.\d*)?)#", $version, $m)) {
+                            continue;
+                        }
+                        //$version = $m[2];
+                        $major = $m[3];
+                        if (isset($m[4])) {
+                            $minor = $m[4];
+                        } else {
+                            $minor = 0;
+                        }
+                        if (isset($m[5])) {
+                            $patch = $m[5];
+                        } else {
+                            $patch = 0;
+                        }
+                        $version = "$major.$minor.$patch";
+
+                        if (isset($m[1])) {
+                            $compare = $m[1];
+                        } else {
+                            $compare = '=';
+                        }
+                        if (!$compare) {
+                            $compare = '=';
+                        } else if ($compare === '~') {
+                            //TODO implement '~' patch
+                            $compare = '>=';
+                        } else if ($compare === '^') {
+                            //TODO implement '^' minor
+                            $compare = '>=';
+                        }
+
+
+                        $found = $plugins->get($name);
+                        if (!$found) {
+                            $msg = "Missing dependency: '$name'";
                             if (is_array($issues)) {
                                 $issues[] = $msg;
                             } else {
@@ -119,18 +108,33 @@ if (!class_exists('\\TwelveTone\\Common\\DependencyUtil')) {
                             $errors++;
                             continue;
                         }
-                    }
-                    $realVersion = $found->blueprints()->version;
-                    if (!version_compare($realVersion, $version, $compare)) {
-                        $msg = "Missing dependency: '$name' $version";
-                        $msg .= ' actual ' . $realVersion;
-                        if (is_array($issues)) {
-                            $issues[] = $msg;
-                        } else {
-                            $messages->add($msg, 'error');
+                        if (!$grav['config']->get("plugins.$name.enabled")) {
+                            //BUG admin should always be enabled if installed
+                            if ($name !== 'admin') {
+                                $msg = "Dependency not enabled: '$name'";
+                                if (is_array($issues)) {
+                                    $issues[] = $msg;
+                                } else {
+                                    $messages->add($msg, 'error');
+                                }
+                                $errors++;
+                                continue;
+                            }
                         }
-                        $errors++;
-                        continue;
+                        $realVersion = $found->blueprints()->version;
+                        if (!version_compare($realVersion, $version, $compare)) {
+                            $msg = "Missing dependency: '$name' $version";
+                            $msg .= ' actual ' . $realVersion;
+                            if (is_array($issues)) {
+                                $issues[] = $msg;
+                            } else {
+                                $messages->add($msg, 'error');
+                            }
+                            $errors++;
+                            continue;
+                        }
+                    } catch (\Exception $e) {
+                        //TODO log exception
                     }
                 }
             }
