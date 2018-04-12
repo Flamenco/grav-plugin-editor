@@ -1,3 +1,9 @@
+# v0.1.2
+##  04/12/2018
+
+1. [](#bugfix)
+    * Fix dependency versions 
+
 # v0.1.1
 ##  04/11/2018
 
