@@ -14,7 +14,7 @@ license: MIT
 
 dependencies:
     - { name: core-service-manager, version: '>=0.1.5' }
-    - { name: admin-power-tools, version: '>=1.0.4' }
+    - { name: admin-power-tools, version: '>=0.1.4' }
 
 require_dependencies: true
     
