@@ -115,7 +115,7 @@ class EditorPlugin extends Plugin
                 $page = new Page;
                 $path = __DIR__ . "/admin/editor-pages/editor-edit.md";
                 $page->init(new \SplFileInfo($path));
-                $page->template('editor');
+                $page->template('editor2');
                 $page->slug(basename($route));
 
                 $e->page = $page;
