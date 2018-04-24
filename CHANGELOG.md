@@ -1,3 +1,9 @@
+# v0.1.3
+##  04/24/2018
+
+1. [](#bugfix)
+    * Avoid conflict with admin editor twig 
+
 # v0.1.2
 ##  04/12/2018
 
