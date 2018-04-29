@@ -1,3 +1,9 @@
+# v0.1.4
+##  04/29/2018
+
+1. [](#bugfix)
+    * Commit missing lib files that were excluded.
+
 # v0.1.3
 ##  04/24/2018
 
