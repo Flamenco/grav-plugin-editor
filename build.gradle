@@ -12,6 +12,7 @@ sourceSets {
             include  "**/*.css"
             include  "**/*.js"
 
+            exclude "lib/**"
             exclude ".sass-cache/**"
             exclude ".gradle/**"
             exclude  "**/*.yaml"
