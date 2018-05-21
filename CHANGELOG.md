@@ -1,3 +1,10 @@
+# v0.1.5
+##  05/21/2018
+
+1. [](#bugfix)
+    * Add workaround for gm-scrollbar issue.
+    * Do not load file already loaded in twig.
+
 # v0.1.4
 ##  04/29/2018
 
