@@ -28,7 +28,6 @@ namespace Grav\Plugin;
 require_once "classes/GravUtil.php";
 require_once "classes/DependencyUtil.php";
 
-use Grav\Common\Grav;
 use Grav\Common\Page\Page;
 use Grav\Common\Plugin;
 use Twelvetone\Common\DependencyUtil;
@@ -138,17 +137,19 @@ class EditorPlugin extends Plugin
         }
     }
 
-    public function onAdminMenu()
-    {
-        $manager = ServiceManager::getInstance();
-
-        $manager->registerService('asset', [
-            'scope' => ['all'],
-            'order' => 'last',
-            'type' => 'css',
-            'url' => 'plugin://editor/assets/editor.css'
-        ]);
-    }
+//    public function onAdminMenu()
+//    {
+//        // The editor CSS is loaded from the twigs.
+//        // Also see https://github.com/Flamenco/grav-plugin-core-service-manager/issues/4#issuecomment-386111807
+//        $manager = ServiceManager::getInstance();
+//
+//        $manager->registerService('asset', [
+//            'scope' => ['all'],
+//            'order' => 'last',
+//            'type' => 'css',
+//            'url' => 'plugin://editor/assets/editor.css'
+//        ]);
+//    }
 
     public function onTwigExtensions()
     {
@@ -163,7 +164,7 @@ class EditorPlugin extends Plugin
         }
 
     }
-    
+
     public function onPluginsInitialized()
     {
         if (!$this->isAdmin()) {
@@ -178,7 +179,7 @@ class EditorPlugin extends Plugin
 
         $this->enable([
             'onTwigExtensions' => ['onTwigExtensions', 0],
-            'onAdminMenu' => ['onAdminMenu', 0],
+//            'onAdminMenu' => ['onAdminMenu', 0],
             'onAdminTwigTemplatePaths' => ['onAdminTwigTemplatePaths', 0],
             'onPageNotFound' => ['onPageNotFound', 1],
             'onPagesInitialized' => ['onPagesInitialized', 0],
