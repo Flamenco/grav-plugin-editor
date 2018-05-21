@@ -65,4 +65,14 @@
   .notice-alert {
     display: none;
   }
+  
+  // On windows, the gm horizontal scrollbar is blocking UI
+  .gm-scrollbar {
+    display: none;
+  }
+
+  // On windows, the gm horizontal scrollbar is blocking UI
+  .gm-scroll-view > * {
+    height: 100%;
+  }
 }

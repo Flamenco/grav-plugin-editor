@@ -57,5 +57,7 @@
     display: none; }
   .editor-wrapper .notice-alert {
     display: none; }
-
-/*# sourceMappingURL=editor.css.map */
+  .editor-wrapper .gm-scrollbar {
+    display: none; }
+  .editor-wrapper .gm-scroll-view > * {
+    height: 100%; }
