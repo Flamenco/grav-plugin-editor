@@ -73,6 +73,7 @@ class EditorPlugin extends Plugin
             case "editor/php":
             case "editor/twig":
             case "editor/md":
+            case "editor/yaml":
 
                 $type = str_replace("editor/", "", $route);
                 $page = new Page;

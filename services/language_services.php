@@ -103,6 +103,17 @@
             ]
         ]);
     }
+
+    if ($config->get("plugins.editor.yaml_enabled", true)) {
+        $manager->registerService("language", [
+            "id" => "yaml",
+            "caption" => "YAML",
+            "icon" => "fa-list",
+            "dependencies" => [
+                "dependencies" => ['plugin://editor/lib/codemirror/mode/yacas/yacas.js'],
+            ]
+        ]);
+    }
 }
 
 // Do this at the last possible moment to allow all languages to register.

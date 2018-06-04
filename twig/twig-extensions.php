@@ -70,6 +70,7 @@ class CssEditorTwigExtensions extends \Twig_Extension
             new \Twig_SimpleFunction('twig_editor_directories', [$this, 'twig_editor_directories']),
             new \Twig_SimpleFunction('php_editor_directories', [$this, 'php_editor_directories']),
             new \Twig_SimpleFunction('js_editor_directories', [$this, 'js_editor_directories']),
+            new \Twig_SimpleFunction('yaml_editor_directories', [$this, 'yaml_editor_directories']),
             new \Twig_SimpleFunction('markdown_editor_directories', [$this, 'markdown_editor_directories']),
         ];
     }
@@ -299,6 +300,11 @@ class CssEditorTwigExtensions extends \Twig_Extension
     public function markdown_editor_directories()
     {
         return $this->get_extension_editor_directories('md');
+    }
+
+    public function yaml_editor_directories()
+    {
+        return $this->get_extension_editor_directories('yaml');
     }
 
     private function get_extension_editor_directories($theExtension)

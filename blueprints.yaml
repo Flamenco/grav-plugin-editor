@@ -80,6 +80,17 @@ form:
       validate:
         type: bool               
 
+    yaml_enabled:
+      type: toggle
+      label: YAML
+      highlight: 1
+      default: 1
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool     
+        
     markdown_enabled:
       type: toggle
       label: Markdown
