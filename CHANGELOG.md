@@ -1,3 +1,12 @@
+# v0.1.7
+##  06/05/2018
+
+1. [](#maintainance)
+    * Remove console.log from AJAX response.
+    
+2. [](#bugfix)
+    * Do not rely on admin blank.html.twig.
+    
 # v0.1.6
 ##  06/04/2018
 
