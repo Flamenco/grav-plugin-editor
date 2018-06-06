@@ -121,7 +121,9 @@
                         }
                         else if (res.newTarget) {
                             let cur = window.location.href;
-                            cur = cur.replace(/(?<=target=)[^&]+/, encodeURIComponent(res.newTarget));
+                            // Look-behind does not work on Safari or Firefox
+                            // cur = cur.replace(/(?<=target=)[^&]+/, encodeURIComponent(res.newTarget));
+                            cur = cur.replace(/(target=)([^&]+)/, "target=" + encodeURIComponent(res.newTarget));
                             window.location.href = cur;
                         }
                         return;
