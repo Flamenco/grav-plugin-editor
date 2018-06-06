@@ -1,3 +1,9 @@
+# v0.1.8
+##  06/05/2018
+
+1. [](#bugfix)
+    * Remove negative lookbehind from regex
+    
 # v0.1.7
 ##  06/05/2018
 
