@@ -1,7 +1,7 @@
 ---
 
 title: Editor Actions
-template: empty
+template: editor-empty
 
 cache:
     enabled: false
