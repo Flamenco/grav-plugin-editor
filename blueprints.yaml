@@ -13,11 +13,11 @@ docs: https://www.twelvetone.tv/docs/developer-tools/grav-plugins/grav-editor-pl
 license: MIT
 
 dependencies:
-    - { name: core-service-manager, version: '>=1.0.7' }
+    - { name: core-service-manager, version: '>=1.0.18' }
     - { name: admin-power-tools, version: '>=0.1.4' }
 
 require_dependencies: true
-    
+
 form:
   validation: strict
   fields:
@@ -35,7 +35,7 @@ form:
     section:
       type: section
       title: File types
-      
+
     css_enabled:
       type: toggle
       label: CSS
@@ -67,7 +67,7 @@ form:
         1: Enabled
         0: Disabled
       validate:
-        type: bool 
+        type: bool
 
     php_enabled:
       type: toggle
@@ -78,7 +78,7 @@ form:
         1: Enabled
         0: Disabled
       validate:
-        type: bool               
+        type: bool
 
     yaml_enabled:
       type: toggle
@@ -89,8 +89,8 @@ form:
         1: Enabled
         0: Disabled
       validate:
-        type: bool     
-        
+        type: bool
+
     markdown_enabled:
       type: toggle
       label: Markdown
@@ -100,4 +100,4 @@ form:
         1: Enabled
         0: Disabled
       validate:
-        type: bool              
+        type: bool
