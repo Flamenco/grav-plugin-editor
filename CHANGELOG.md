@@ -1,3 +1,10 @@
+# v0.1.9
+##  09/28/2019
+
+1. [](#improvement)
+    * Add icons to dropdown list items.
+    * Update language icons.
+    
 # v0.1.8
 ##  06/05/2018
 
