@@ -44,7 +44,9 @@
         $manager->registerService("language", [
             "id" => "php",
             "caption" => "PHP",
-            "icon" => "fa-list",
+            "icon" => "fa-php",
+            "iconstyle" => "fa",
+//            "iconstyle" => "fab",
             "dependencies" => ['plugin://editor/lib/codemirror/mode/clike/clike.js',
                 'plugin://editor/lib/codemirror/mode/php/php.js'],
         ]);
@@ -54,7 +56,10 @@
         $manager->registerService("language", [
             "id" => "js",
             "caption" => "Javascript",
-            "icon" => "fa-list",
+            "icon" => "fa-file-code-o",
+            "iconstyle" => "fa",
+//            "icon" => "fa-js",
+//            "iconstyle" => "fab",
             "dependencies" => ['plugin://editor/lib/codemirror/mode/javascript/javascript.js'],
         ]);
     }
@@ -63,7 +68,9 @@
         $manager->registerService("language", [
             "id" => "css",
             "caption" => "CSS",
-            "icon" => "fa-list",
+            "icon" => "fa-css3",
+            "iconstyle" => "fa",
+//            "iconstyle" => "fab",
             "dependencies" => ['plugin://editor/lib/codemirror/mode/css/css.js'],
         ]);
     }
@@ -72,7 +79,10 @@
         $manager->registerService("language", [
             "id" => "twig",
             "caption" => "Twig",
-            "icon" => "fa-list",
+            "icon" => "fa-tree",
+            "iconstyle" => "fa",
+//            "icon" => "fa-symfony",
+//            "iconstyle" => "fab",
             "dependencies" => [
                 'plugin://editor/lib/codemirror/addons/overlay.js',
                 'plugin://editor/lib/codemirror/mode/css/css.js',
@@ -89,7 +99,10 @@
         $manager->registerService("language", [
             "id" => "md",
             "caption" => "Markdown",
-            "icon" => "fa-list",
+            "icon" => "fa-hashtag",
+            "iconstyle" => "fa",
+//            "icon" => "fa-markdown",
+//            "iconstyle" => "fab",
             "dependencies" => [
                 'plugin://editor/lib/codemirror/addons/overlay.js',
                 'plugin://editor/lib/codemirror/mode/css/css.js',
@@ -108,7 +121,8 @@
         $manager->registerService("language", [
             "id" => "yaml",
             "caption" => "YAML",
-            "icon" => "fa-list",
+            "icon" => "fa-indent",
+            'iconstyle' =>  'fa',
             "dependencies" => [
                 "dependencies" => ['plugin://editor/lib/codemirror/mode/yacas/yacas.js'],
             ]
@@ -128,7 +142,12 @@
         $dependencies = [];
         foreach ($services as $service) {
             $serviceId = $service['id'];
-            $items[] = ['caption' => $service['caption'], 'href' => $base . "/editor/$serviceId"];
+            $items[] = [
+                'caption' => $service['caption'],
+                'href' => $base . "/editor/$serviceId",
+                'icon' =>  $service['icon'] ?: 'fa-edit',
+                'iconstyle' =>  $service['iconstyle']
+            ];
             foreach ($service['dependencies'] as $dependency) {
                 $dependencies[] = $dependency;
             }
@@ -143,7 +162,7 @@
                     'items' => $items,
                     'selected' => strpos(\Grav\Common\Grav::instance()['uri']->route(), "/editor/") != false
                 ];
-                return $twig->processTemplate('partials/nav-dropdown-menu.html.twig', $params);
+                    return $twig->processTemplate('partials/nav-dropdown-menu.html.twig', $params);
             },
             'scope' => ['admin:sidebar'],
             'order' => 'after:parent',
