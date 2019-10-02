@@ -312,6 +312,7 @@ class CssEditorTwigExtensions extends \Twig_Extension
 //        $theDirectories = Grav::instance()['twig']->twig_paths;
         $theDirectories[] = 'user/plugins';
         $theDirectories[] = 'user/themes';
+        $theDirectories[] = 'user/config';
         $theDirectories[] = 'system';
 
         $s = "";
