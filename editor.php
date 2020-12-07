@@ -26,11 +26,9 @@
 namespace Grav\Plugin;
 
 require_once "classes/GravUtil.php";
-require_once "classes/DependencyUtil.php";
 
 use Grav\Common\Page\Page;
 use Grav\Common\Plugin;
-use Twelvetone\Common\DependencyUtil;
 use Twelvetone\Common\ServiceManager;
 
 /**
@@ -172,11 +170,11 @@ class EditorPlugin extends Plugin
             return;
         }
 
-        if (!DependencyUtil::checkDependencies($this)) {
+		if (!$this->grav['core-service-util']->checkPluginDependencies($this)) {
             return;
         }
 
-        DependencyUtil::checkAllPluginDependencies();
+		$this->grav['core-service-util']->checkAllPluginDependencies();
 
         $this->enable([
             'onTwigExtensions' => ['onTwigExtensions', 0],
