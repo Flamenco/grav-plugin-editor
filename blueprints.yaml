@@ -1,5 +1,5 @@
 name: Editor
-version: 0.1.10
+version: 0.1.11
 description: Edit theme, plugin, and markdown files from the browser.
 icon: edit
 author:
@@ -13,8 +13,8 @@ docs: https://www.twelvetone.tv/docs/developer-tools/grav-plugins/grav-editor-pl
 license: MIT
 
 dependencies:
-    - { name: core-service-manager, version: '>=1.0.18' }
-    - { name: admin-power-tools, version: '>=0.1.4' }
+    - { name: core-service-manager, version: '>=1.1.0' }
+    - { name: admin-power-tools, version: '>=0.1.13' }
 
 require_dependencies: true
 
