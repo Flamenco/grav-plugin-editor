@@ -1,3 +1,10 @@
+# v0.1.11
+##  12/6/2019
+
+1. [](#bugfix)
+    * Add Grav 1.7 compatibility
+    * Use ServiceManagerUtil for dependency checks
+    
 # v0.1.10
 ##  10/02/2019
 
