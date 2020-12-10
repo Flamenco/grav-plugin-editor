@@ -61,6 +61,17 @@
         }
 
     </style>
+
+    {# full height (in 1.7 and perhaps 1.6) #}
+    <style>
+        .simplebar-content {
+            height: 100%
+        }
+
+        .simplebar-content > div {
+            height: 100%
+        }
+    </style>
 {% endblock %}
 
 {% set pageToEdit = uri.query('target') %}
