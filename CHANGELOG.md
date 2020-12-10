@@ -1,3 +1,9 @@
+# v0.1.12
+##  12/9/2019
+
+1. [](#improvement)
+    * Make editor full height
+    
 # v0.1.11
 ##  12/6/2019
 
